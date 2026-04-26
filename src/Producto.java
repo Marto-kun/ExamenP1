@@ -25,9 +25,9 @@ public class Producto {
     @Override
     public String toString() {
         return "Nombre: " + getNombre() +
-                "Cantidad: " + getCantidad() +
-                "Precio Unitario: " + getPrecioUni() +
-                "Total: " + getPrecioSubtotal();
+                " / Cantidad: " + getCantidad() +
+                " / Precio Unitario: " + getPrecioUni() +
+                " / Total: " + getPrecioSubtotal();
     }
 
     /**

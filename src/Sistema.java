@@ -14,6 +14,21 @@ public class Sistema {
     }
 
     /**
+     * Metodo para registrar productos de forma individual
+     *
+     * @param contador revisa cuantos productos ya fueron creados
+     */
+    public void asignarProductoIndividual(int contador) {
+        if (contador == 0) {
+            this.p1 = crearProducto();
+        } else if (contador == 1) {
+            this.p2 = crearProducto();
+        } else if (contador == 2) {
+            this.p3 = crearProducto();
+        }
+    }
+
+    /**
      * Metodo para crear un objeto tipo producto nuevo
      *
      * @return Producto nuevo producto
@@ -48,24 +63,24 @@ public class Sistema {
         if (p3 != null) {
             System.out.println("3. " + p3.getNombre());
         }
-
+        System.out.print(">>> ");
         int opc = sc.nextInt();
         int cantidad;
 
         if (opc == 1) {
-            System.out.println("Ingrese la cantidad del producto: ");
+            System.out.print("Ingrese la cantidad del producto: ");
             cantidad = sc.nextInt();
             p1.setCantidad(cantidad);
         }
 
         if (opc == 2) {
-            System.out.println("Ingrese la cantidad del producto: ");
+            System.out.print("Ingrese la cantidad del producto: ");
             cantidad = sc.nextInt();
             p2.setCantidad(cantidad);
         }
 
         if (opc == 3) {
-            System.out.println("Ingrese la cantidad del producto: ");
+            System.out.print("Ingrese la cantidad del producto: ");
             cantidad = sc.nextInt();
             p3.setCantidad(cantidad);
         }
@@ -74,16 +89,16 @@ public class Sistema {
 
     public void emitirFactura() {
         Factura fac = new Factura(p1, p2, p3);
-        fac.calcularSubTotal();
-        fac.calcularIVA();
-        fac.calcularTotal();
+        fac.setSubtotal(fac.calcularSubTotal());
+        fac.setIva(fac.calcularIVA());
+        fac.setTotal(fac.calcularTotal());
 
         System.out.println(p1);
         System.out.println(p2);
         System.out.println(p3);
-        System.out.println(fac.getSubtotal());
-        System.out.println(fac.getIva());
-        System.out.println(fac.getTotal());
+        System.out.println("Subtotal: " + fac.getSubtotal());
+        System.out.println("IVA: " + fac.getIva());
+        System.out.println("Total de la Venta: " + fac.getTotal());
 
     }
 
@@ -101,7 +116,7 @@ public class Sistema {
         System.out.println("2) Vender Producto");
         System.out.println("3) Emitir Factura");
         System.out.println("4) Salir");
-        System.out.println(">>> ");
+        System.out.print(">>> ");
         opc = sc.nextInt();
 
         return opc;

@@ -19,6 +19,7 @@ public class Factura {
      * @return double subtotal de la venta
      */
     public double calcularSubTotal() {
+        this.subtotal = 0;
         if (p1 != null) {
             subtotal += p1.getPrecioSubtotal();
         }

@@ -7,19 +7,35 @@ public class Main {
         int prodCreados = 0;
 
 
-        opc = Sistema.menu();
         do {
+            opc = Sistema.menu();
             switch (opc) {
                 case 1:
+                    if (prodCreados >= 3){
+                        System.out.println("Ya se crearon todos los productos posibles, intente con otra opcion.");
+                        break;
+                    }
 
+                    sis.asignarProductoIndividual(prodCreados);
+                    prodCreados++;
+                    System.out.println("Producto registrado con exito (" + prodCreados + "/3)");
                     break;
 
                 case 2:
-
+                    if(prodCreados == 0){
+                        System.out.println("No existen productos, intente crear uno primero.");
+                        break;
+                    }
+                    sis.venderProducto();
                     break;
 
                 case 3:
+                    if(prodCreados == 0){
+                        System.out.println("No existen productos, intente crear uno primero.");
+                        break;
+                    }
                     System.out.println("Emitiendo Factura...");
+                    sis.emitirFactura();
                     break;
 
                 case 4:
