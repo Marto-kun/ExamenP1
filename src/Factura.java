@@ -1,36 +1,32 @@
 public class Factura {
 
-    private Producto p1;
-    private Producto p2;
-    private Producto p3;
+
+    private Producto[] arregloFactura;
     private double subtotal;
     private double iva;
     private double total;
 
-    public Factura(Producto p1, Producto p2, Producto p3) {
-        this.p1 = p1;
-        this.p2 = p2;
-        this.p3 = p3;
+    public Factura(Producto[] inventarioRecibido) {
+        this.arregloFactura = inventarioRecibido;
     }
 
+
     /**
-     * Metodo para calcular el subtotal de toda la venta
+     * Metodo para calcular el subtotal de toda la venta sobre el arreglo
      *
      * @return double subtotal de la venta
      */
     public double calcularSubTotal() {
         this.subtotal = 0;
-        if (p1 != null) {
-            subtotal += p1.getPrecioSubtotal();
+
+        //Iteraciones para calcular el subtotal sobre el arreglo
+        for (int i = 0; i < arregloFactura.length; i++) {
+            Producto p = arregloFactura[i];
+            if (p != null) {
+                this.subtotal += p.getPrecioSubtotal();
+            }
         }
 
-        if (p2 != null) {
-            subtotal += p2.getPrecioSubtotal();
-        }
-
-        if (p3 != null) {
-            subtotal += p3.getPrecioSubtotal();
-        }
         return subtotal;
     }
 
@@ -54,29 +50,6 @@ public class Factura {
         return total;
     }
 
-    public Producto getP1() {
-        return p1;
-    }
-
-    public void setP1(Producto p1) {
-        this.p1 = p1;
-    }
-
-    public Producto getP2() {
-        return p2;
-    }
-
-    public void setP2(Producto p2) {
-        this.p2 = p2;
-    }
-
-    public Producto getP3() {
-        return p3;
-    }
-
-    public void setP3(Producto p3) {
-        this.p3 = p3;
-    }
 
     public double getSubtotal() {
         return subtotal;

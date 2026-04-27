@@ -7,6 +7,7 @@ public class Sistema {
     private Producto p1;
     private Producto p2;
     private Producto p3;
+    private Producto[] inventario = new Producto[3];
 
     //Constructor
     public Sistema() {
@@ -14,18 +15,21 @@ public class Sistema {
     }
 
     /**
-     * Metodo para registrar productos de forma individual
+     * Getter especial para leer "inventario"
+     *
+     * @return
+     */
+    public Producto[] getInventario() {
+        return inventario;
+    }
+
+    /**
+     * Metodo para registrar productos de forma individual al arreglo de inventario
      *
      * @param contador revisa cuantos productos ya fueron creados
      */
     public void asignarProductoIndividual(int contador) {
-        if (contador == 0) {
-            this.p1 = crearProducto();
-        } else if (contador == 1) {
-            this.p2 = crearProducto();
-        } else if (contador == 2) {
-            this.p3 = crearProducto();
-        }
+        this.inventario[contador] = crearProducto();
     }
 
     /**
@@ -52,50 +56,51 @@ public class Sistema {
      */
     public void venderProducto() {
         System.out.println("Seleccione el producto a vender: ");
-        if (p1 != null) {
-            System.out.println("1. " + p1.getNombre());
+
+        //Impresion de los productos disponibles segun el arreglo
+        for (int i = 0; i < inventario.length; i++) {
+            if (inventario[i] != null) {
+                System.out.println((i + 1) + ". " + inventario[i].getNombre());
+            }
         }
 
-        if (p2 != null) {
-            System.out.println("2. " + p2.getNombre());
-        }
-
-        if (p3 != null) {
-            System.out.println("3. " + p3.getNombre());
-        }
-        System.out.print(">>> ");
+        System.out.println(">>> ");
         int opc = sc.nextInt();
-        int cantidad;
+        int index = opc - 1;   //Formato de indice ya que empieza en 0
 
-        if (opc == 1) {
-            System.out.print("Ingrese la cantidad del producto: ");
-            cantidad = sc.nextInt();
-            p1.setCantidad(cantidad);
-        }
+        if (index >= 0 && index < inventario.length) {
+            if (inventario[index] != null) {
+                System.out.print("Ingrese la cantidad de " + inventario[index].getNombre() + ": ");
+                int cantidad = sc.nextInt();
+                inventario[index].setCantidad(cantidad);
+            } else {
+                System.out.println("El producto seleccionado no existe");
+            }
 
-        if (opc == 2) {
-            System.out.print("Ingrese la cantidad del producto: ");
-            cantidad = sc.nextInt();
-            p2.setCantidad(cantidad);
-        }
-
-        if (opc == 3) {
-            System.out.print("Ingrese la cantidad del producto: ");
-            cantidad = sc.nextInt();
-            p3.setCantidad(cantidad);
+        } else {
+            System.out.println("Opcion ingresada no valida.");
         }
 
     }
 
+    /**
+     * Metodo para emitir facturacion de los 3 productos
+     */
     public void emitirFactura() {
-        Factura fac = new Factura(p1, p2, p3);
+        //Establecer los atributos de facturacion
+        Factura fac = new Factura(this.inventario);
         fac.setSubtotal(fac.calcularSubTotal());
         fac.setIva(fac.calcularIVA());
         fac.setTotal(fac.calcularTotal());
 
-        System.out.println(p1);
-        System.out.println(p2);
-        System.out.println(p3);
+        //Impresion de los datos del producto dentro del arreglo inventario[]
+        for (int i = 0; i < inventario.length; i++) {
+            if (inventario[i] != null) {
+                System.out.println(inventario[i]);
+            }
+        }
+
+        //Impresion de los valores de facturacion
         System.out.println("Subtotal: " + fac.getSubtotal());
         System.out.println("IVA: " + fac.getIva());
         System.out.println("Total de la Venta: " + fac.getTotal());
