@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.Scanner;
 
 public class Sistema {
@@ -38,12 +39,10 @@ public class Sistema {
      * @return Producto nuevo producto
      */
     public Producto crearProducto() {
-        System.out.println("Ingreso de datos del producto: ");
-        System.out.print("Nombre: ");
-        String nombre = sc.next();
+        String nombre = JOptionPane.showInputDialog(null, "Ingrese nombre del producto: ");
+        String precioStr = JOptionPane.showInputDialog(null, "Ingrese el precio unitario: ");
 
-        System.out.print("Precio Unitario: ");
-        double precioUni = sc.nextDouble();
+        double precioUni = Double.parseDouble(precioStr);  //Parseo de String a Double precio
 
         Producto prod = new Producto(nombre, precioUni);
 
@@ -55,30 +54,36 @@ public class Sistema {
      *
      */
     public void venderProducto() {
-        System.out.println("Seleccione el producto a vender: ");
+        String menuVenta = "Seleccione el producto a vender: ";
 
         //Impresion de los productos disponibles segun el arreglo
         for (int i = 0; i < inventario.length; i++) {
             if (inventario[i] != null) {
-                System.out.println((i + 1) + ". " + inventario[i].getNombre());
+                menuVenta += (i + 1) + ". " + inventario[i].getNombre() + "\n";
             }
         }
 
-        System.out.println(">>> ");
-        int opc = sc.nextInt();
+        String opcEntrada = JOptionPane.showInputDialog(null, menuVenta);
+        int opc = Integer.parseInt(opcEntrada);
         int index = opc - 1;   //Formato de indice ya que empieza en 0
 
         if (index >= 0 && index < inventario.length) {
             if (inventario[index] != null) {
-                System.out.print("Ingrese la cantidad de " + inventario[index].getNombre() + ": ");
-                int cantidad = sc.nextInt();
+
+                String cantidadStr = JOptionPane.showInputDialog(null,
+                        "\nIngrese la cantidad de "
+                                + inventario[index].getNombre() + ": ");
+
+                int cantidad = Integer.parseInt(cantidadStr);
                 inventario[index].setCantidad(cantidad);
+                JOptionPane.showMessageDialog(null, "Cantidad asignada con éxito.");
+
             } else {
-                System.out.println("El producto seleccionado no existe");
+                JOptionPane.showMessageDialog(null, "El producto seleccionado no existe");
             }
 
         } else {
-            System.out.println("Opcion ingresada no valida.");
+            JOptionPane.showMessageDialog(null, "Opcion invalida");
         }
 
     }
@@ -93,17 +98,24 @@ public class Sistema {
         fac.setIva(fac.calcularIVA());
         fac.setTotal(fac.calcularTotal());
 
+        String impFactura = "---- Detalle ----\n"; //Se define la variable que se va a mostrar en pantalla
+
+
         //Impresion de los datos del producto dentro del arreglo inventario[]
         for (int i = 0; i < inventario.length; i++) {
             if (inventario[i] != null) {
-                System.out.println(inventario[i]);
+                impFactura += inventario[i] + "\n";
             }
         }
 
-        //Impresion de los valores de facturacion
-        System.out.println("Subtotal: " + fac.getSubtotal());
-        System.out.println("IVA: " + fac.getIva());
-        System.out.println("Total de la Venta: " + fac.getTotal());
+
+        //Mostrar los valores de facturacion en ventana emergente
+        impFactura += "----------------------------\n";
+        impFactura += "Subtotal: " + fac.getSubtotal() + "\n";
+        impFactura += "IVA: " + fac.getIva() + "\n";
+        impFactura += "Total de la Venta: " + fac.getTotal() + "\n";
+
+        JOptionPane.showMessageDialog(null, impFactura);
 
     }
 
@@ -113,16 +125,20 @@ public class Sistema {
      * @return int opcion elegida
      */
     public static int menu() {
-        Scanner sc = new Scanner(System.in);
-        int opc;
+        String menu = "---- Menu Principal ----\n" +
+                "1) Crear Producto\n" +
+                "2) Vender producto\n" +
+                "3) Emitir Factura\n" +
+                "4) Salir\n\n" +
+                "Seleccione una opcion";
 
-        System.out.println("---- Menu Principal ----");
-        System.out.println("1) Crear Producto");
-        System.out.println("2) Vender Producto");
-        System.out.println("3) Emitir Factura");
-        System.out.println("4) Salir");
-        System.out.print(">>> ");
-        opc = sc.nextInt();
+        String entrada = JOptionPane.showInputDialog(null, menu);
+        int opc;
+        if (entrada == null) {
+            opc = 4;
+        } else {
+            opc = Integer.parseInt(entrada);
+        }
 
         return opc;
     }
