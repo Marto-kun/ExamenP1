@@ -54,7 +54,7 @@ public class Sistema {
      *
      */
     public void venderProducto() {
-        String menuVenta = "Seleccione el producto a vender: ";
+        String menuVenta = "Seleccione el producto a vender: \n";
 
         //Impresion de los productos disponibles segun el arreglo
         for (int i = 0; i < inventario.length; i++) {
